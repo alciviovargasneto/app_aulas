@@ -1,71 +1,50 @@
-import { IconChart, IconCoin, IconMegaphone, IconSpark, IconTag, IconTarget } from "./icons";
+const FLOATING_GLYPHS = [
+  { text: "prompt", top: "12%", left: "6%", delay: "0s", tilt: "-8deg", size: "text-lg" },
+  { text: "tokens", top: "72%", left: "9%", delay: "1.4s", tilt: "5deg", size: "text-base" },
+  { text: "CoT", top: "22%", left: "86%", delay: "0.7s", tilt: "7deg", size: "text-xl" },
+  { text: "AI", top: "82%", left: "82%", delay: "2.1s", tilt: "-4deg", size: "text-lg" },
+  { text: "ReAct", top: "48%", left: "92%", delay: "1.1s", tilt: "3deg", size: "text-sm" },
+  { text: "zero-shot", top: "88%", left: "38%", delay: "0.4s", tilt: "-6deg", size: "text-sm" },
+  { text: "SoT", top: "8%", left: "44%", delay: "1.8s", tilt: "4deg", size: "text-base" },
+  { text: "LLM", top: "34%", left: "2%", delay: "2.6s", tilt: "-3deg", size: "text-lg" },
+];
 
-/** Fundo ambiente do programa: holofotes girando, ícones flutuando e palco pontilhado. */
 export default function Background() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
-      {/* base em gradiente de auditório */}
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_-10%,#1d3695_0%,#0d1c50_42%,#081034_70%,#050a24_100%)]" />
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0a1540_0%,#081034_45%,#050a24_100%)]" />
 
-      {/* feixes de holofote */}
-      <div className="absolute left-1/2 top-[-42vh] h-[130vh] w-[130vh] -translate-x-1/2 anim-beam">
-        <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,210,63,0.10)_14deg,transparent_30deg,transparent_95deg,rgba(63,216,255,0.09)_112deg,transparent_132deg,transparent_200deg,rgba(255,210,63,0.08)_215deg,transparent_236deg,transparent_300deg,rgba(63,216,255,0.08)_318deg,transparent_338deg)]" />
+      {/* Rotating light beams */}
+      <div className="anim-beam absolute left-1/2 top-[-60%] h-[160%] w-[160%] -translate-x-1/2 opacity-40">
+        <div className="h-full w-full [background:conic-gradient(from_0deg,transparent_0deg,rgba(43,74,192,0.28)_20deg,transparent_55deg,transparent_120deg,rgba(255,196,46,0.16)_150deg,transparent_190deg,transparent_300deg,rgba(63,216,255,0.18)_330deg,transparent_360deg)]" />
       </div>
 
-      {/* textura de palco */}
-      <div className="absolute inset-0 stage-dots opacity-70" />
+      {/* Dot grid */}
+      <div className="stage-dots absolute inset-0 opacity-60" />
 
-      {/* vinheta */}
-      <div className="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_40%,transparent_55%,rgba(3,6,22,0.75)_100%)]" />
+      {/* Glowing orbs */}
+      <div className="absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-navy-500/30 blur-3xl" />
+      <div className="absolute -right-24 bottom-10 h-80 w-80 rounded-full bg-gold-500/10 blur-3xl" />
 
-      {/* ícones flutuantes */}
-      <Floating className="left-[6%] top-[16%] text-gold-400/50" tilt="-10deg" delay="0s" dur="8s">
-        <IconMegaphone size={54} />
-      </Floating>
-      <Floating className="right-[8%] top-[12%] text-neoncyan/40" tilt="12deg" delay="0.8s" dur="9s">
-        <IconTarget size={46} />
-      </Floating>
-      <Floating className="left-[12%] bottom-[18%] text-neoncyan/35" tilt="8deg" delay="1.6s" dur="10s">
-        <IconChart size={50} />
-      </Floating>
-      <Floating className="right-[14%] bottom-[24%] text-gold-400/40" tilt="-14deg" delay="0.4s" dur="7.5s">
-        <IconTag size={42} />
-      </Floating>
-      <Floating className="left-[46%] top-[70%] text-iceblue/30" tilt="6deg" delay="2.2s" dur="11s">
-        <IconCoin size={40} />
-      </Floating>
-      <Floating className="left-[28%] top-[8%] text-gold-300/45" tilt="0deg" delay="3s" dur="6.5s">
-        <IconSpark size={22} />
-      </Floating>
-      <Floating className="right-[32%] top-[58%] text-gold-300/35" tilt="18deg" delay="1.1s" dur="8.5s">
-        <IconSpark size={16} />
-      </Floating>
-      <Floating className="left-[4%] top-[52%] text-gold-400/30" tilt="-6deg" delay="2.7s" dur="9.5s">
-        <IconSpark size={14} />
-      </Floating>
-    </div>
-  );
-}
+      {/* Floating AI-themed glyphs */}
+      {FLOATING_GLYPHS.map((g, i) => (
+        <span
+          key={i}
+          className={`anim-floaty absolute font-display tracking-widest text-iceblue/15 ${g.size}`}
+          style={{
+            top: g.top,
+            left: g.left,
+            animationDelay: g.delay,
+            ["--tilt" as never]: g.tilt,
+          }}
+        >
+          {g.text}
+        </span>
+      ))}
 
-function Floating({
-  children,
-  className = "",
-  tilt = "0deg",
-  delay = "0s",
-  dur = "8s",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  tilt?: string;
-  delay?: string;
-  dur?: string;
-}) {
-  return (
-    <div
-      className={`absolute anim-floaty ${className}`}
-      style={{ ["--tilt" as string]: tilt, animationDelay: delay, animationDuration: dur }}
-    >
-      {children}
+      {/* Vignette */}
+      <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_55%,rgba(5,10,36,0.85)_100%)]" />
     </div>
   );
 }
