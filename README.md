@@ -1,12 +1,26 @@
-# Sorteio de Temas — Técnicas Avançadas de Prompt
+# Sorteio de Temas — Letramento em IA (interface para projeção)
 
-App web para sortear (ordenar aleatoriamente) os 8 temas do trabalho avaliativo da disciplina **Letramento em Inteligência Artificial**.
+Sorteio dos 8 temas do trabalho avaliativo de "Técnicas avançadas de prompt"
+(disciplina: Letramento em Inteligência Artificial). Ao pressionar o botão,
+a lista é ordenada aleatoriamente e exibida como A = 1º tema, B = 2º, ... H = 8º.
 
-Ao pressionar o botão **SORTEAR TEMAS**, a lista é embaralhada e o resultado é exibido com as letras **A = primeiro tema**, **B = segundo tema**, ... até **H**.
+## Otimizações para retroprojetor / projetor
 
-## Rodar
+- Tipografia fluida gigante (`clamp()` com vw): legível da última fileira.
+- Fundo quase preto sólido + texto branco/dourado de altíssimo contraste
+  (projetores perdem contraste; sem brilhos, feixes, vinheta ou glows).
+- Fonte do título com fallback local (Arial Black) — funciona sem internet.
+- Animações lentas e discretas (sem flicker/ghosting na projeção).
+- **Modo claro (tecla L)**: fundo branco + texto preto para projetores fracos
+  ou salas iluminadas.
+- **Ocultar descrições (tecla D)**: mostra só letras A–H e nomes dos temas.
+- **Tela cheia (tecla F)** e **Enter/Espaço** para acionar o sorteio.
+- Uma coluna única larga no lugar de grades compactas.
+
+## Scripts
 
 ```bash
-npm install
-npm run dev
+npm run dev      # desenvolvimento
+npm run build    # build de produção
+npm run typecheck
 ```

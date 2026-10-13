@@ -1,45 +1,37 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { shuffle } from "../lib/themes";
-
 interface SpinningListProps {
   names: string[];
   spinning: boolean;
 }
 
 /**
- * Lista que "gira" durante o sorteio: os nomes trocam de posição em
- * intervalos curtos enquanto `spinning` for true, simulando um sorteio
- * ao vivo antes do resultado final.
+ * Lista dos temas participantes antes/de durante o sorteio.
+ * Formato para projeção: coluna única, texto grande, sem grade 2x1
+ * (que obrigaria a inclinar a cabeça / perderia largura na tela).
  */
 export default function SpinningList({ names, spinning }: SpinningListProps) {
   return (
-    <ul className="grid gap-2 sm:grid-cols-2">
-      <AnimatePresence mode="popLayout">
-        {(spinning ? shuffle(names) : names).map((name, i) => (
-          <motion.li
-            key={name}
-            layout
-            initial={{ opacity: 0, y: 10, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.96 }}
-            transition={{ duration: 0.18 }}
-            className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-semibold ${
+    <ul className="flex flex-col gap-2.5 sm:gap-3">
+      {names.map((name, i) => (
+        <li
+          key={name}
+          className={`proj-row flex items-center gap-4 rounded-xl border-2 px-5 py-2.5 font-bold sm:py-3 ${
+            spinning
+              ? "border-neoncyan bg-navy-800 text-neoncyan"
+              : "border-white/25 bg-navy-850 text-white"
+          }`}
+        >
+          <span
+            className={`text-letter grid h-[clamp(2.6rem,4vw,3.8rem)] w-[clamp(2.6rem,4vw,3.8rem)] shrink-0 place-items-center rounded-full border-2 font-display font-black ${
               spinning
-                ? "border-neoncyan/40 bg-navy-800/70 text-neoncyan"
-                : "border-white/10 bg-white/[0.04] text-slate-200"
+                ? "border-neoncyan bg-neoncyan/20 text-neoncyan"
+                : "border-iceblue/60 bg-white/10 text-iceblue"
             }`}
           >
-            <span
-              className={`grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-base ${
-                spinning ? "bg-neoncyan/20 text-neoncyan" : "bg-white/10 text-iceblue"
-              }`}
-            >
-              {i + 1}
-            </span>
-            <span>{name}</span>
-          </motion.li>
-        ))}
-      </AnimatePresence>
+            {i + 1}
+          </span>
+          <span className="text-item">{name}</span>
+        </li>
+      ))}
     </ul>
   );
 }

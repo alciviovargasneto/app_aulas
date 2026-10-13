@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import type { DrawnAssignment } from "../lib/themes";
 
 interface ResultListProps {
@@ -6,30 +5,36 @@ interface ResultListProps {
 }
 
 /**
- * Resultado do sorteio: A = primeiro tema do ordenamento aleatório,
- * B = segundo, e assim sucessivamente até H.
+ * Resultado do sorteio em tela cheia, formatado para projeção:
+ * A = primeiro tema do ordenamento aleatório, B = segundo, ... até H.
+ * Uma única coluna larga (nada de grade apertada), letras enormes e
+ * nomes em peso 800 — legível da última fileira da sala.
  */
 export default function ResultList({ assignments }: ResultListProps) {
   return (
-    <ol className="space-y-2.5">
+    <ol className="flex flex-col gap-3 sm:gap-4">
       {assignments.map(({ letter, theme }, i) => (
-        <motion.li
+        <li
           key={letter}
-          initial={{ opacity: 0, x: -24 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.12 + i * 0.16, duration: 0.45, ease: "easeOut" }}
-          className="group flex items-center gap-4 rounded-xl border border-gold-400/25 bg-gradient-to-r from-navy-800/80 to-navy-850/60 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+          className="proj-row anim-rise flex items-center gap-4 rounded-xl border-2 border-gold-400/60 bg-navy-800 px-5 py-3 sm:px-7 sm:py-4"
+          style={{ animationDelay: `${i * 90}ms` }}
         >
-          <span className="coin-shine relative grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-gold-400/70 bg-gradient-to-b from-gold-300 to-gold-600 font-display text-2xl text-navy-950 shadow-[0_0_18px_rgba(255,196,46,0.35)]">
+          <span className="proj-badge text-letter grid h-[clamp(3rem,5vw,4.6rem)] w-[clamp(3rem,5vw,4.6rem)] shrink-0 place-items-center rounded-full border-[3px] border-gold-300 bg-gradient-to-b from-gold-300 to-gold-600 font-display font-black text-navy-950">
             {letter}
           </span>
-          <div className="flex flex-col">
-            <span className="text-base font-bold leading-tight text-white sm:text-lg">
+          <div className="flex min-w-0 flex-col">
+            <span className="proj-row-name text-item font-extrabold leading-tight text-white">
               {theme.name}
             </span>
-            <span className="text-xs leading-snug text-iceblue/70">{theme.description}</span>
+            {/* Descrição opcional: some no modo "limpo" (tecla D) para
+                reduzir poluição visual na projeção. */}
+            {theme.description && (
+              <span className="proj-row-desc text-note mt-1 font-medium text-iceblue">
+                {theme.description}
+              </span>
+            )}
           </div>
-        </motion.li>
+        </li>
       ))}
     </ol>
   );
