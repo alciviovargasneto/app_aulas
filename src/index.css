@@ -1,157 +1,165 @@
 @import "tailwindcss";
 
+/* =====================================================================
+   TIPOGRAFIA PARA PROJEÇÃO (retroprojetor / projetor multimídia)
+   A base tipográfica usa clamp() com viewport: em telas de notebook a
+   interface parece "grande demais" de propósito — ao projetar, ela vira
+   exatamente o tamanho legível da última fileira da sala.
+   ===================================================================== */
+
 @theme {
-  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
-  --font-body: "Barlow", "Segoe UI", sans-serif;
+  --font-display: "Arial Black", "Archivo Black", "Bebas Neue", Impact, sans-serif;
+  --font-body: "Barlow", "Segoe UI", Arial, sans-serif;
 
-  --color-navy-950: #050a24;
-  --color-navy-900: #081034;
-  --color-navy-850: #0a1540;
-  --color-navy-800: #0d1c50;
-  --color-navy-700: #14276e;
-  --color-navy-600: #1d3695;
-  --color-navy-500: #2b4ac0;
+  /* Escala fluida (vw/px) pensada para projeção */
+  --text-hero: clamp(2.6rem, 5.4vw, 5.4rem);
+  --text-sub: clamp(1.25rem, 2.3vw, 2.1rem);
+  --text-item: clamp(1.35rem, 2.6vw, 2.5rem);
+  --text-note: clamp(1rem, 1.5vw, 1.35rem);
+  --text-letter: clamp(1.7rem, 3vw, 2.9rem);
+  --text-button: clamp(1.8rem, 3.2vw, 3.2rem);
 
-  --color-gold-200: #fff0b8;
-  --color-gold-300: #ffe07a;
+  --color-navy-950: #02040c;
+  --color-navy-900: #050a1c;
+  --color-navy-850: #071026;
+  --color-navy-800: #0a1533;
+  --color-navy-700: #10204d;
+
+  --color-gold-200: #fff3b0;
+  --color-gold-300: #ffe37a;
   --color-gold-400: #ffd23f;
   --color-gold-500: #ffc42e;
-  --color-gold-600: #e2a400;
-  --color-gold-700: #a86f00;
+  --color-gold-600: #f0ab00;
+  --color-gold-700: #c98a00;
 
-  --color-iceblue: #9fb8ff;
-  --color-neoncyan: #3fd8ff;
-  --color-win: #2ee66b;
-  --color-lose: #ff4d5e;
+  --color-iceblue: #cfe0ff;
+  --color-neoncyan: #5ee1ff;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   min-height: 100%;
 }
 
 body {
   font-family: var(--font-body);
   background: var(--color-navy-950);
-  color: #eaf0ff;
+  color: #ffffff;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* ---------- keyframes ---------- */
+/* ---------- utilitários de texto projetável ---------- */
 
-@keyframes floaty {
-  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
-  50% { transform: translateY(-18px) rotate(calc(var(--tilt, 0deg) + 4deg)); }
-}
-
-@keyframes beamSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes marqueeX {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes pulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 196, 46, 0.55), 0 0 24px rgba(255, 196, 46, 0.35); }
-  50% { box-shadow: 0 0 0 8px rgba(255, 196, 46, 0), 0 0 42px rgba(255, 196, 46, 0.6); }
-}
-
-@keyframes blinkAnswer {
-  0%, 49% {
-    background: linear-gradient(180deg, #ffd23f, #e2a400);
-    color: #221a00;
-    border-color: #fff0b8;
-  }
-  50%, 100% {
-    background: linear-gradient(180deg, #14276e, #0d1c50);
-    color: #fff0b8;
-    border-color: #ffc42e;
-  }
-}
-
-@keyframes shakeX {
-  0%, 100% { transform: translateX(0); }
-  15% { transform: translateX(-9px); }
-  30% { transform: translateX(8px); }
-  45% { transform: translateX(-7px); }
-  60% { transform: translateX(6px); }
-  75% { transform: translateX(-4px); }
-  90% { transform: translateX(2px); }
-}
-
-@keyframes coinShine {
-  0% { transform: translateX(-130%) skewX(-20deg); }
-  60%, 100% { transform: translateX(230%) skewX(-20deg); }
-}
-
-@keyframes ladderPulse {
-  0%, 100% { background: linear-gradient(90deg, #ffc42e, #ffe07a); }
-  50% { background: linear-gradient(90deg, #ffd23f, #fff0b8); }
-}
-
-@keyframes riseIn {
-  from { opacity: 0; transform: translateY(22px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes sparkle {
-  0%, 100% { opacity: 0.15; transform: scale(0.7); }
-  50% { opacity: 1; transform: scale(1.15); }
-}
-
-@keyframes timerPanic {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-/* ---------- helper classes ---------- */
+.text-hero { font-size: var(--text-hero); }
+.text-sub { font-size: var(--text-sub); }
+.text-item { font-size: var(--text-item); }
+.text-note { font-size: var(--text-note); }
+.text-letter { font-size: var(--text-letter); }
+.text-button { font-size: var(--text-button); }
 
 .font-display { font-family: var(--font-display); }
 
-.title-3d {
+/* Título sólido e de altíssimo contraste.
+   Sem efeito "3D"/sombras pesadas: em projetores isso vira mancha. */
+.title-proj {
   color: var(--color-gold-400);
-  text-shadow:
-    0 1px 0 #a86f00,
-    0 2px 0 #8a5a00,
-    0 3px 0 #6d4700,
-    0 4px 0 #4f3300,
-    0 6px 2px rgba(0, 0, 0, 0.55),
-    0 0 38px rgba(255, 196, 46, 0.4);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.65);
 }
 
-.stage-dots {
-  background-image: radial-gradient(rgba(159, 184, 255, 0.13) 1px, transparent 1.4px);
-  background-size: 26px 26px;
+/* ---------- keyframes ----------
+   Apenas animações discretas: movimentos rápidos e piscar ficam ruins
+   quando projetados (efeito fantasma / flicker). */
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.anim-floaty { animation: floaty 7s ease-in-out infinite; }
-.anim-beam { animation: beamSpin 26s linear infinite; }
-.anim-marquee { animation: marqueeX 30s linear infinite; }
-.anim-pulse-gold { animation: pulseGold 1.6s ease-out infinite; }
-.anim-shake { animation: shakeX 0.55s ease-in-out both; }
-.anim-rise { animation: riseIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.anim-sparkle { animation: sparkle 2.2s ease-in-out infinite; }
-.anim-panic { animation: timerPanic 0.5s ease-in-out infinite; }
-.anim-ladder-current { animation: ladderPulse 1.2s ease-in-out infinite; }
-
-.suspense-blink {
-  animation: blinkAnswer 0.46s steps(1, end) infinite !important;
+@keyframes pulseGoldSoft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 210, 63, 0); }
+  50% { box-shadow: 0 0 0 10px rgba(255, 210, 63, 0.16); }
 }
 
-.coin-shine::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: inherit;
-  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.75) 50%, transparent 60%);
-  animation: coinShine 2.8s ease-in-out infinite;
-  pointer-events: none;
+.anim-rise { animation: riseIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-pulse-soft { animation: pulseGoldSoft 2.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-rise,
+  .anim-pulse-soft {
+    animation: none !important;
+  }
 }
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #081034; }
-::-webkit-scrollbar-thumb { background: #2b4ac0; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: #ffc42e; }
+/* ---------- MODO CLARO (projetor fraco ou sala iluminada) ----------
+   Ativa pela tecla L ou pelo botão na interface (html.mode-light).
+   Fundo branco = máxima luminância no projetor; texto preto = máximo
+   contraste possível em qualquer equipamento. */
+
+html.mode-light body {
+  background: #ffffff;
+  color: #000000;
+}
+
+html.mode-light .proj-card {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+html.mode-light .proj-chip {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+html.mode-light .proj-title {
+  color: #b8860b !important;
+  text-shadow: none !important;
+}
+
+html.mode-light .proj-accent {
+  color: #000000 !important;
+}
+
+html.mode-light .proj-muted {
+  color: #1a1a1a !important;
+  opacity: 1 !important;
+}
+
+html.mode-light .proj-row {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+html.mode-light .proj-row-name {
+  color: #000000 !important;
+}
+
+html.mode-light .proj-row-desc {
+  color: #333333 !important;
+}
+
+html.mode-light .proj-badge {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffd23f !important;
+  box-shadow: none !important;
+}
+
+html.mode-light .proj-btn {
+  background: #ffd23f !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #02040c; }
+::-webkit-scrollbar-thumb { background: #10204d; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #ffd23f; }
